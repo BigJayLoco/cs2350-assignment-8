@@ -1,27 +1,108 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <title>Project Starter</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="robots" content="index,follow" />
-    <meta name="description" content="TODO: A starter project for ..." />
 
-    <link rel="stylesheet" href="./stylesheets/main.css" />
-  </head>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bootstrap Gallery</title>
+  <link href="./stylesheets/main.css" rel="stylesheet">
+  <script type="module" src="javascripts/main.js"></script>
 
-  <body>
-    <!-- Your HTML goes here -->
-    <h1 class="display-2 text-center my-5 py-5">
-      <span class="d-block py-5">
-        <i class="bi bi-filetype-html text-primary"></i>
-        <i class="bi bi-filetype-css text-danger"></i>
-        <i class="bi bi-filetype-js text-success"></i>
-      </span>
+    <style>
+    #selected-image {
+      margin-top: 10px;
+      width: 100%;
+      height: 75%;
+    }
 
-      Welcome to CS 2350!
-    </h1>
+    #image-info {
+      margin-top: 10px;
+    }
 
-    <script type="module" src="./javascripts/main.js"></script>
-  </body>
+    .navbar {
+      background-color: black;
+      height: 100px;
+    }
+
+    .navbar-brand {
+      font-size: xx-large;
+      color: white;
+      text-align: left;
+    }
+
+    .navbar-nav .nav-link {
+      color: lightblue;
+      font-size: xx-large;
+    }
+  </style>
+</head>
+
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark">
+    <div class="container">
+      <a class="navbar-brand">Joshua Lokovic</a>
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="#">Gallery</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-6">
+        <img id="selected-image" src="" alt="Selected Image">
+        <div id="image-info">
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <div id="thumbnails" class="row">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+  var gallery = [
+      { id: 1, title: "Red and blue box apartments", url: "https://plus.unsplash.com/premium_photo-1694030762987-4775dc16e9c4?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", description: "These red and blue box apartments are a staple in every Germany city. The show off the vibrant and colorful attitude as well as the beauty of being in nature with unique things." },
+      { id: 2, title: "Silent City Night", url: "https://images.unsplash.com/photo-1557296869-e9a76501a0d1?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", description: "This is a classic silent city, or at least what you would expect one to be like. The soft colors and dark-ish sky give off a calming vibe, pretty neat." },
+      { id: 3, title: "New York Vibes", url: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", description: "This is what you would expect to see when looking up in New York City. A bunch of building around you, not knowing what exactly is in each one but it looks cool I guess." },
+      { id: 4, title: "Italy Probably", url: "https://images.unsplash.com/photo-1551279076-6887dee32c7e?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", description: "This is Italy probably. It looks like Italy, feels like Italy, but is it Italy? The world may never know." },
+      { id: 5, title: "Generic Town A", url: "https://plus.unsplash.com/premium_photo-1673515243097-b2b9b194b056?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", description: "This looks like a generic town that you would see anywhere in the world. It could be in the middle of Russia, or it could be your hometown. It's just a generic town." },
+      { id: 6, title: "Generic City A", url: "https://images.unsplash.com/photo-1561815908-bb4926a2f4eb?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", description: "This is a generic city that they use in many movies. It looks nice and vibrant, and there isn't much special about it. Good city." },
+      { id: 7, title: "More boxes in a mall??", url: "https://plus.unsplash.com/premium_photo-1694030762806-a147368e944c?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", description: "They are putting boxes in malls for people to live in. Kind of weird since you could have people watching you sleep at night, but whatever floats your boat I guess. :shrug:" },
+      { id: 8, title: "Mayo Clinic: The House of Mayonase", url: "https://images.unsplash.com/photo-1596541223130-5d31a73fb6c6?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", description: "This is Mayo Clinic, home of the Mayonase revolution. At first glance, this seems like a normal clinic that anyone can go to and get a checkup at. However, this is secretly Mr. Mayo's headquarters where he produces the formula for Mayonase, which has never been disclosed before." },
+      { id: 9, title: "Cool building with IBM building on the side", url: "https://images.unsplash.com/photo-1599735759623-7c36c8b7c5f5?q=80&w=1975&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", description: "This is a cool building that is pretty tall. There is also an IBM building next to it, but hey, who cares when there is a cool building in front of you." },
+      { id: 10, title: "Box Apartments on stairs I guess", url: "https://plus.unsplash.com/premium_photo-1694030762909-2e8e4177a195?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", description: "More boxes on top of stairs. I guess they really like living on the edge. Get it? Because it looks like they are on the edge ofa the stairs about to fall off? No? Well, it was funny before but now it's not. :(" },
+      { id: 11, title: "Cool city sunset view", url: "https://images.unsplash.com/photo-1536599018102-9f803c140fc1?q=80&w=2128&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", description: "This is cool view of a city from a mountain looking down. This is what professional photographers do, which is who I'm assuming took this photograph." },
+      { id: 12, title: "City Timelapse paused at night", url: "https://images.unsplash.com/photo-1558218368-d3a02c076775?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D", description: "This is what a city timelapse video would be paused at if it was at night. If you know, you know. I ran out of ideas to talk about, but that's what this image is." }
+    ]
+
+  function showImage(imageId) {
+      var selectedImage = gallery.find(function (image) {
+          return image.id === parseInt(imageId);
+      });
+      document.getElementById("selected-image").src = selectedImage.url;
+      document.getElementById("image-info").innerHTML = '<h1 style="font-size: 50px;">' + selectedImage.title + '</h1><p style="font-size: 20px;">' + selectedImage.description + '</p>';
+  }
+  function generateThumbnails() {
+      var thumbnailsDiv = document.getElementById("thumbnails");
+      var thumbnailsHTML = "";
+      gallery.forEach(function (image) {
+          thumbnailsHTML += '<div class="col-md-4 mb-3">';
+          thumbnailsHTML += '<img class="img-thumbnail" src="' + image.url + '" alt="' + image.title + '" onclick="showImage(' + image.id + ')">';
+          thumbnailsHTML += '</div>';
+      })
+      thumbnailsDiv.innerHTML = thumbnailsHTML;
+  }
+
+
+  generateThumbnails();
+  showImage(1);
+  </script>
+
+</body>
+
 </html>
